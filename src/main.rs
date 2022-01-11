@@ -8,14 +8,13 @@ fn main() {
 	std::io::stdin().read_line(&mut user_in).unwrap();
 
 	let toks: Vec::<tokenizer::Token> = tokenizer::tokenize(&user_in);
-	println!("{:?}", &toks);
-
+	println!("Tokens: {:?}", toks);
+	
 	let rpn_toks: Vec::<&tokenizer::Token> = shunting_yard(&toks);
-	println!();
+	print!("\nRPN: ");
 	for tok in rpn_toks {
 		print!("{} ", tok.val);
 	}
-	
 }
 
 fn shunting_yard(toks: &Vec::<tokenizer::Token>) -> Vec::<&tokenizer::Token>{
@@ -32,7 +31,8 @@ fn shunting_yard(toks: &Vec::<tokenizer::Token>) -> Vec::<&tokenizer::Token>{
 			op_stack.pop().unwrap();
 		}
 		else if tok.variant == tokenizer::TokenType::Op {			
-			while op_stack.len() != 0 && op_stack.last().unwrap().precedent >= tok.precedent {
+			println!("{:?}", tok);
+			while op_stack.len() != 0 && op_stack.last().unwrap().precedent.unwrap() >= tok.precedent.unwrap() {
 				out_stack.push(op_stack.pop().unwrap());
 			}
 			op_stack.push(tok);

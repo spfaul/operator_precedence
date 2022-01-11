@@ -4,11 +4,11 @@
 pub struct Token {
 	pub val: String,
 	pub variant: TokenType,
-	pub precedent: u8
+	pub precedent: Option<u8>
 }
 
 impl Token {
-	pub fn new(s: String, t: TokenType, prec: u8) -> Self {
+	pub fn new(s: String, t: TokenType, prec: Option<u8>) -> Self {
 		return Token {
 			val: s,
 			variant: t,
@@ -27,18 +27,29 @@ pub enum TokenType {
 
 pub fn tokenize(text: &String) -> Vec::<Token>{
 	let mut toks: Vec::<Token> = Vec::new();
-
-	let mut iter = text.chars().peekable();
-	for c in iter {
+	let mut skip: usize = 0; // to skip future iterations dynamically, im sure theres a better way to do this
+	
+	for (idx, c) in text.chars().enumerate() {
+		if skip > 0 {
+			skip -= 1;
+			continue
+		}
+	
 		match c {
-			'(' => toks.push(Token::new(String::from(c), TokenType::OpenParen, 1)),
-			')' => toks.push(Token::new(String::from(c), TokenType::CloseParen, 1)),
-			'+' | '-'  => toks.push(Token::new(String::from(c), TokenType::Op, 2)),
-			'*' | '/' => toks.push(Token::new(String::from(c), TokenType::Op, 3)),
+			'(' => toks.push(Token::new(String::from(c), TokenType::OpenParen, None)),
+			')' => toks.push(Token::new(String::from(c), TokenType::CloseParen, None)),
+			'+' | '-'  => toks.push(Token::new(String::from(c), TokenType::Op, Some(2))),
+			'*' | '/' => toks.push(Token::new(String::from(c), TokenType::Op, Some(3))),
 			_ => {
 				if c.is_ascii_digit() {
-					// TODO: Multi-digit nums
-					toks.push(Token::new(String::from(c), TokenType::Num, 0));
+					let mut num_str: String = String::from(c);
+					let mut i: usize = 1;
+					while text.chars().nth(idx+i).unwrap().is_ascii_digit() {
+						num_str.push(text.chars().nth(idx+i).unwrap());
+						i += 1;
+					}
+					skip = i - 1; // skip other digits in num so they don't become they're own tokens
+					toks.push(Token::new(String::from(num_str), TokenType::Num, None));
 				}
 			}
 		}
