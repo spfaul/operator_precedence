@@ -8,7 +8,7 @@ fn main() {
 	std::io::stdin().read_line(&mut user_in).unwrap();
 
 	let toks: Vec::<tokenizer::Token> = tokenizer::tokenize(&user_in);
-	// println!("{:?}", &toks);
+	println!("{:?}", &toks);
 
 	let rpn_toks: Vec::<&tokenizer::Token> = shunting_yard(&toks);
 	println!();
@@ -23,7 +23,15 @@ fn shunting_yard(toks: &Vec::<tokenizer::Token>) -> Vec::<&tokenizer::Token>{
 	let mut op_stack: Vec::<&tokenizer::Token> = Vec::new();
 
 	for tok in toks.iter() {
-		if tok.variant == tokenizer::TokenType::Op {
+		if tok.variant == tokenizer::TokenType::OpenParen {
+				op_stack.push(tok);
+		} else if tok.variant == tokenizer::TokenType::CloseParen {
+			while op_stack.last().expect("Mismatched Parenthesis!").val != "(" {
+				out_stack.push(op_stack.pop().unwrap());
+			}
+			op_stack.pop().unwrap();
+		}
+		else if tok.variant == tokenizer::TokenType::Op {			
 			while op_stack.len() != 0 && op_stack.last().unwrap().precedent >= tok.precedent {
 				out_stack.push(op_stack.pop().unwrap());
 			}
