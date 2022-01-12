@@ -40,11 +40,12 @@ pub fn tokenize(text: &String) -> Vec::<Token>{
 			')' => toks.push(Token::new(String::from(c), TokenType::CloseParen, None)),
 			'+' | '-'  => toks.push(Token::new(String::from(c), TokenType::Op, Some(2))),
 			'*' | '/' => toks.push(Token::new(String::from(c), TokenType::Op, Some(3))),
+			'^' => toks.push(Token::new(String::from(c), TokenType::Op, Some(4))),
 			_ => {
 				if c.is_ascii_digit() {
 					let mut num_str: String = String::from(c);
 					let mut i: usize = 1;
-					while text.chars().nth(idx+i).unwrap().is_ascii_digit() {
+					while text.chars().count() > idx+i && text.chars().nth(idx+i).unwrap().is_ascii_digit() {
 						num_str.push(text.chars().nth(idx+i).unwrap());
 						i += 1;
 					}
