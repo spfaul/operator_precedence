@@ -1,6 +1,6 @@
 #[allow(dead_code)]
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Token {
 	pub val: String,
 	pub variant: TokenType,
@@ -17,7 +17,7 @@ impl Token {
 	}
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum TokenType {
 	OpenParen,
 	CloseParen,

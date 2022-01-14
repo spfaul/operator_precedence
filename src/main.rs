@@ -1,25 +1,28 @@
 use rustyline::Editor;
 mod lexer;
+mod parser;
 
 fn main() {
 	let mut rl = Editor::<()>::new();
 	let user_in = rl.readline("Input: ").unwrap();
 
-	let toks: Vec::<lexer::Token> = lexer::tokenize(&user_in);
+	let mut toks: Vec::<lexer::Token> = lexer::tokenize(&user_in);
 	println!("Tokens: {:?}", toks);
 	
-	let rpn_toks: Vec::<&lexer::Token> = shunting_yard(&toks);
+	let mut rpn_toks: Vec::<&mut lexer::Token> = shunting_yard(&mut toks);
 	print!("\nRPN: ");
-	for tok in rpn_toks {
+	for tok in rpn_toks.iter() {
 		print!("{} ", tok.val);
 	}
+
+	println!("\nResult: {}", parser::parse(&mut rpn_toks));
 }
 
-fn shunting_yard(toks: &Vec::<lexer::Token>) -> Vec::<&lexer::Token>{
-	let mut out_stack: Vec::<&lexer::Token> = Vec::new();
-	let mut op_stack: Vec::<&lexer::Token> = Vec::new();
+fn shunting_yard(toks: &mut Vec::<lexer::Token>) -> Vec::<&mut lexer::Token>{
+	let mut out_stack: Vec::<&mut lexer::Token> = Vec::new();
+	let mut op_stack: Vec::<&mut lexer::Token> = Vec::new();
 
-	for tok in toks.iter() {
+	for tok in toks.iter_mut() {
 		if tok.variant == lexer::TokenType::OpenParen {
 				op_stack.push(tok);
 		} else if tok.variant == lexer::TokenType::CloseParen {
@@ -43,7 +46,7 @@ fn shunting_yard(toks: &Vec::<lexer::Token>) -> Vec::<&lexer::Token>{
 	}
 
 	op_stack.reverse();
-	out_stack.extend(&op_stack);
+	out_stack.extend(op_stack);
 
 	out_stack
 }
