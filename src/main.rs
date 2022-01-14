@@ -1,4 +1,5 @@
 use rustyline::Editor;
+use std::io::Write;
 mod lexer;
 mod parser;
 
@@ -14,8 +15,10 @@ fn main() {
 	for tok in rpn_toks.iter() {
 		print!("{} ", tok.val);
 	}
+	println!();
+	std::io::stdout().flush().unwrap();
 
-	println!("\nResult: {}", parser::parse(&mut rpn_toks));
+	println!("Result: {}", parser::parse(&mut rpn_toks));
 }
 
 fn shunting_yard(toks: &mut Vec::<lexer::Token>) -> Vec::<&mut lexer::Token>{
@@ -32,7 +35,6 @@ fn shunting_yard(toks: &mut Vec::<lexer::Token>) -> Vec::<&mut lexer::Token>{
 			op_stack.pop().unwrap();
 		}
 		else if tok.variant == lexer::TokenType::Op {
-			// println!("{:?}, {:?}", tok, op_stack.last().unwrap());
 			while op_stack.len() > 0 &&
 				op_stack.last().unwrap().variant != lexer::TokenType::OpenParen &&
 			 	op_stack.last().unwrap().precedent.expect("Tok has no Precedence!") >= tok.precedent.expect("Tok has no Precedence!") {

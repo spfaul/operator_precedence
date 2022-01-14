@@ -9,6 +9,7 @@ lazy_static! {
 		m.insert(String::from("-"), |x, y| x - y);
 		m.insert(String::from("*"), |x, y| x * y);
 		m.insert(String::from("/"), |x, y| x / y);
+		m.insert(String::from("^"), |x, y| i32::pow(x, y as u32));
 		m
 	};
 }
@@ -16,7 +17,6 @@ lazy_static! {
 
 pub fn parse(toks: &mut Vec::<&mut Token>) -> i32 {
 	let mut res_stack: Vec::<&mut Token> = Vec::new();
-	let mut t: Token;
 
 	for tok in toks.iter_mut() {
 		match tok.variant {
