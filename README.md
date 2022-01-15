@@ -22,7 +22,7 @@ Supports:
 The 4 standard operators available are `+`, `-`, `*` and `/`.
 Valid operator syntax is `<NUM><OPERATION><NUM>`.
 
-Brackets can be used to isolate an expression, so while `4-2-2` gives `0`, `4-(2-2)` gives `4`.
+Brackets can be used to isolate an expression, so while `4-2-2=0`, `4-(2-2)=4`.
 
 The 4 standard functions available are `min`, `max`, `pow`, `mod`.
 Valid function syntax is `<FUNCTION>(<NUM> <NUM>)`. All functions accept 2 32-bit signed integers as parameters and output a sigle 32-bit signed integer.
