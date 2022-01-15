@@ -28,8 +28,8 @@ The 4 standard functions available are `min`, `max`, `pow`, `mod`.
 Valid function syntax is `<FUNCTION>(<NUM> <NUM>)`. All functions accept 2 32-bit signed integers as parameters and output a sigle 32-bit signed integer.
 
 Examples:
-	- `4 - 2 * 2 = 0`
-	- `min(4 max(2 5)) + 1 = 5`
+- `4 - 2 * 2 = 0`
+- `min(4 max(2 5)) + 1 = 5`
 
 ## References
 - Shunting Yard Algorithm: https://en.wikipedia.org/wiki/Shunting-yard_algorithm
