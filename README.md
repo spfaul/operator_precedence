@@ -25,7 +25,7 @@ Valid operator syntax is `<NUM><OPERATION><NUM>`.
 Brackets can be used to isolate an expression, so while `4-2-2=0`, `4-(2-2)=4`.
 
 The 4 standard functions available are `min`, `max`, `pow`, `mod`.
-Valid function syntax is `<FUNCTION>(<NUM> <NUM>)`. All functions accept 2 32-bit signed integers as parameters and output a sigle 32-bit signed integer.
+Valid function syntax is `<FUNCTION>(<NUM> <NUM>)`. All functions accept 2 32-bit signed integers as parameters and output a single 32-bit signed integer.
 
 Examples:
 - `4 - 2 * 2 = 0`
