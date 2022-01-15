@@ -9,9 +9,9 @@ cargo run
 Send a mathematical expression in string representation to stdin (e.g. `4 - 2 * 2`).
 
 Returns:
-	- Tokens Extracted From [Lexer](https://github.com/t0a5ted/operator_precedence/blob/master/src/lexer.rs)
-	- Input in [RPN](https://en.wikipedia.org/wiki/Reverse_Polish_notation).
-	- Evaluated Result
+- Tokens Extracted From [Lexer](https://github.com/t0a5ted/operator_precedence/blob/master/src/lexer.rs)
+- Input in [RPN](https://en.wikipedia.org/wiki/Reverse_Polish_notation).
+- Evaluated Result
 
 Supports:
 - [x] The big 4 (`+ - / *`)
