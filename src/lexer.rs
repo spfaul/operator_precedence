@@ -22,7 +22,8 @@ pub enum TokenType {
 	OpenParen,
 	CloseParen,
 	Num,
-	Op
+	Op,
+	Func
 }
 
 pub fn tokenize(text: &String) -> Vec::<Token>{
@@ -40,7 +41,6 @@ pub fn tokenize(text: &String) -> Vec::<Token>{
 			')' => toks.push(Token::new(String::from(c), TokenType::CloseParen, None)),
 			'+' | '-'  => toks.push(Token::new(String::from(c), TokenType::Op, Some(2))),
 			'*' | '/' => toks.push(Token::new(String::from(c), TokenType::Op, Some(3))),
-			'^' => toks.push(Token::new(String::from(c), TokenType::Op, Some(4))),
 			_ => {
 				if c.is_ascii_digit() {
 					let mut num_str: String = String::from(c);
@@ -51,6 +51,17 @@ pub fn tokenize(text: &String) -> Vec::<Token>{
 					}
 					skip = i - 1; // skip other digits in num so they don't become they're own tokens
 					toks.push(Token::new(String::from(num_str), TokenType::Num, None));
+				} else if c.is_ascii_alphabetic() {
+					let mut identifier: String = String::from(c);
+					let mut i: usize = 1;
+					while text.chars().count() > idx+i && text.chars().nth(idx+i).unwrap().is_ascii_alphabetic() {
+						identifier.push(text.chars().nth(idx+i).unwrap());
+						i += 1;
+					}
+					skip = i - 1;
+					toks.push(Token::new(String::from(identifier), TokenType::Func, None));
+				} else if !c.is_ascii_whitespace() {
+					panic!("Unknown identifier \"{}\" at position {}!", c, idx);
 				}
 			}
 		}
