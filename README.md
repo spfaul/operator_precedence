@@ -20,7 +20,7 @@ Supports:
 
 ## Usage (Pretty much self-explanatory)
 The 4 standard operators available are `+`, `-`, `*` and `/`.
-Valid operator syntax is `<NUM><OPERATION><NUM>` (e.g. `4*2`, `1-3+5`)
+Valid operator syntax is `<NUM><OPERATION><NUM>`.
 
 Brackets can be used to isolate an expression, so while `4-2-2` gives `0`, `4-(2-2)` gives `4`.
 
